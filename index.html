@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Story App - Aplikasi berbagi cerita dan pengalaman" />
+  <title>Story App SPA - Berbagi Cerita Anda</title>
+  <link rel="stylesheet" href="/src/styles/accessibility.css" />
+  <script type="module" crossorigin src="/story-app-spa/assets/index-pnCGN--f.js"></script>
+  <link rel="stylesheet" crossorigin href="/story-app-spa/assets/index-DncTcavC.css">
+<link rel="manifest" href="/story-app-spa/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/story-app-spa/registerSW.js"></script></head>
+<body>
+  <!-- Skip navigation dipisah di mainView -->
+  <header role="banner" aria-label="Header situs web">
+  </header>
+  
+  <!-- Main content area -->
+  <main id="main-content" tabindex="-1" role="main" aria-label="Konten utama aplikasi Story">
+    <!-- Page title menggunakan h1, ada di MainView.renderPage() -->
+    <div id="app" aria-live="polite" aria-atomic="false">
+    </div>
+  </main>
+  
+  <!-- footer -->
+  <footer role="contentinfo" aria-label="Footer situs web">
+    <div class="footer-content">
+      <p>&copy; 2025 Story App. Seluruh hak cipta dilindungi.</p>
+    </div>
+  </footer>
+  
+  <!-- Live region for announcements -->
+  <div id="announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+  
+</body>
+</html>
