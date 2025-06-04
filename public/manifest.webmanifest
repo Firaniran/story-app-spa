@@ -1,8 +1,8 @@
 {
   "name": "Story App",
   "short_name": "StoryApp",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/story-app-spa/",
+  "scope": "/story-app-spa/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#42b883",
@@ -28,7 +28,7 @@
   "shortcuts": [
     {
       "name": "Tambah Cerita",
-      "url": "/#/tambah",
+      "url": "/story-app-spa/#/tambah",
       "icons": [{ "src": "/icons/icon-192x192.png", "type": "image/png" }]
     }
   ]
