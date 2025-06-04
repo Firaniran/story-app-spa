@@ -1,4 +1,4 @@
 Nama    : Firani
 Email   : martabaktelor@gmail.com
 Password: rahasia123
-URL DEPLOY : https://your-deploy-url.netlify.app
+URL DEPLOY : https://firaniran.github.io/story-app-spa/
