@@ -2,12 +2,43 @@
 import Swal from 'sweetalert2';
 import L from 'leaflet';
 
+// Solusi 1: Menggunakan CDN yang lebih reliable
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
+
+// Solusi 2: Fallback dengan custom icon jika CDN gagal
+const createCustomIcon = () => {
+  return L.divIcon({
+    className: 'custom-marker',
+    html: `<div style="
+      width: 25px;
+      height: 41px;
+      background: #3388ff;
+      border: 2px solid white;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      position: relative;
+    ">
+      <div style="
+        width: 8px;
+        height: 8px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        transform: rotate(45deg);
+      "></div>
+    </div>`,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+  });
+};
 
 export default class AddStoryView {
   constructor() {
@@ -15,6 +46,7 @@ export default class AddStoryView {
     this.map = null;
     this.marker = null;
     this.mediaStream = null;
+    this.useCustomIcon = false; // Flag untuk fallback
 
     // DOM references dipindah ke View sesuai arahan reviewer
     this.photoPreview = null;
@@ -38,6 +70,31 @@ export default class AddStoryView {
     this.onSubmit = null;
     this.onMarkerDragEnd = null;
     this.onMapClick = null;
+
+    // Test icon availability saat konstruktor
+    this._testIconAvailability();
+  }
+
+  async _testIconAvailability() {
+    try {
+      const testImage = new Image();
+      const iconUrl = 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png';
+      
+      testImage.onload = () => {
+        console.log('Leaflet icons tersedia dari CDN');
+        this.useCustomIcon = false;
+      };
+      
+      testImage.onerror = () => {
+        console.warn('CDN Leaflet icons tidak tersedia, menggunakan custom icon');
+        this.useCustomIcon = true;
+      };
+      
+      testImage.src = iconUrl;
+    } catch (error) {
+      console.warn('Error testing icon availability:', error);
+      this.useCustomIcon = true;
+    }
   }
 
   render(container) {
@@ -82,6 +139,12 @@ export default class AddStoryView {
           <button type="submit" class="submit-btn" style="margin-top: 2rem;">📤 Upload Story</button>
         </form>
       </main>
+      
+      <style>
+        .custom-marker {
+          filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+        }
+      </style>
     `;
 
     // Initialize DOM references setelah render
@@ -154,6 +217,7 @@ export default class AddStoryView {
       console.log('Events berhasil di-bind');
     }, 100);
   }
+
   setCallbacks({
     onLocateClick,
     onPhotoChange,
@@ -191,11 +255,15 @@ export default class AddStoryView {
   initMap(defaultCoords = [-7.607874, 110.203751], zoom = 13) {
     try {
       this.map = L.map('mapContainer').setView(defaultCoords, zoom);
+      
+      // Menggunakan tile layer yang lebih reliable
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 19
       }).addTo(this.map);
 
-      this.map.on('tileerror', () => {
+      this.map.on('tileerror', (e) => {
+        console.warn('Tile error:', e);
         this.showError('Gagal memuat peta', 'Periksa koneksi internet lo, bro!');
       });
 
@@ -206,6 +274,8 @@ export default class AddStoryView {
           this.onMapClick(lat, lng);
         }
       });
+
+      console.log('Map berhasil diinisialisasi');
     } catch (error) {
       console.error('Map initialization error:', error);
       this.showError('Gagal menginisialisasi peta', 'Terjadi kesalahan saat memuat peta.');
@@ -222,7 +292,14 @@ export default class AddStoryView {
     if (this.marker) {
       this.map.removeLayer(this.marker);
     }
-    this.marker = L.marker([lat, lon], { draggable: true })
+    
+    // Gunakan custom icon jika CDN tidak tersedia
+    const markerOptions = { draggable: true };
+    if (this.useCustomIcon) {
+      markerOptions.icon = createCustomIcon();
+    }
+    
+    this.marker = L.marker([lat, lon], markerOptions)
       .addTo(this.map)
       .bindPopup("Lokasi cerita lo nih! Geser kalau mau")
       .openPopup();
