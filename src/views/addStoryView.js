@@ -2,7 +2,7 @@
 import Swal from 'sweetalert2';
 import L from 'leaflet';
 
-// Solusi 1: Menggunakan CDN yang lebih reliable
+//panggil icon leafet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
@@ -10,7 +10,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-// Solusi 2: Fallback dengan custom icon jika CDN gagal
+// Fallback dengan custom icon jika CDN gagal
 const createCustomIcon = () => {
   return L.divIcon({
     className: 'custom-marker',
@@ -46,7 +46,7 @@ export default class AddStoryView {
     this.map = null;
     this.marker = null;
     this.mediaStream = null;
-    this.useCustomIcon = false; // Flag untuk fallback
+    this.useCustomIcon = false;
 
     // DOM references dipindah ke View sesuai arahan reviewer
     this.photoPreview = null;
