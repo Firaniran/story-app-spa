@@ -12,8 +12,6 @@
   --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
-/* ACCESSIBILITY IMPROVEMENTS START */
-
 /* Screen reader only content */
 .sr-only {
   position: absolute !important;
