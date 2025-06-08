@@ -1,4 +1,4 @@
 Nama    : Ran
-Email   : ranpacarphainon
+Email   : ranpacarphainon@gmail.com
 Password: phainonwangywangy
 URL DEPLOY : https://firaniran.github.io/story-app-spa/
