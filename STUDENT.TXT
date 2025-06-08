@@ -1,4 +1,4 @@
-Nama    : Firani
-Email   : martabaktelor@gmail.com
-Password: rahasia123
+Nama    : Ran
+Email   : ranpacarphainon
+Password: phainonwangywangy
 URL DEPLOY : https://firaniran.github.io/story-app-spa/
