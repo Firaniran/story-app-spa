@@ -1,12 +1,9 @@
-// vite.config.js
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
-import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   base: '/story-app-spa/',
   plugins: [
-    vue(),
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icon-192.png', 'icon-512.png', 'screenshot-desktop.png', 'screenshot-mobile.png'],
@@ -61,7 +58,7 @@ export default defineConfig({
             handler: 'CacheFirst'
           }
         ]
-     }
-   })
+      }
+    })
   ]
 })

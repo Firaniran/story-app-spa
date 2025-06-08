@@ -1,26 +1,29 @@
-//src/main.js
 import './styles/style.css';
 import router from './router/router.js';
-import MainView from './views/mainView.js';
 
 const container = document.getElementById('app');
-const mainView = new MainView(container);
+
+function renderNav(isLoggedIn) {
+  const nav = document.createElement('nav');
+  nav.innerHTML = isLoggedIn ? '<a href="#/logout">Logout</a>' : '<a href="#/login">Login</a>';
+  container.appendChild(nav);
+}
+
+function clearContent() {
+  const content = container.querySelector('.content');
+  if (content) {
+    content.remove();
+  }
+}
 
 function rerenderApp() {
   const token = localStorage.getItem('token');
   const isLoggedIn = !!token;
 
   // Render navbar sesuai status login
-  mainView.renderNav(isLoggedIn);
-  if (document.startViewTransition) {
-    document.startViewTransition(() => {
-      mainView.clearContent();
-      router(mainView.getContentContainer());
-    });
-  } else {
-    mainView.clearContent();
-    router(mainView.getContentContainer());
-  }
+  renderNav(isLoggedIn);
+  clearContent();
+  router(container);
 }
 
 window.rerenderApp = rerenderApp;
