@@ -18,12 +18,13 @@ function rerenderApp() {
   contentContainer.innerHTML = '';
   router(contentContainer);
 
-  // Tambah tombol notifikasi kalau sudah login dan tombol belum ada
-  if (isLoggedIn && !document.getElementById('pushButton')) {
+  const container = document.getElementById('notification-button-container');
+  if (container && isLoggedIn && !document.getElementById('pushButton')) {
     const btn = document.createElement('button');
     btn.id = 'pushButton';
     btn.textContent = 'Aktifkan Notifikasi';
-    document.body.appendChild(btn);
+    btn.classList.add('push-btn');
+    container.appendChild(btn);
 
     btn.addEventListener('click', async () => {
       const result = await setupPushNotification();
