@@ -43,8 +43,6 @@
               `:""}
 
             ${o?`
-           <aside class="user-actions" aria-label="Aksi pengguna" style="display: flex; align-items: center; gap: 1rem;">
-            <button id="pushButton" class="push-btn" type="button" aria-label="Aktifkan Notifikasi" style="background: none; border: none; cursor: pointer;">
               <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
               <path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 0 0 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C7.63 5.36 6 7.92 6 11v5l-1.99 2H20l-2-2z"/>
                 </svg>
