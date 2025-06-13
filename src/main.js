@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   rerenderApp();
 
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js')
+    navigator.serviceWorker.register('/story-app-spa/service-worker.js')
       .then(() => console.log('Service Worker registered'))
       .catch(console.error);
   }
