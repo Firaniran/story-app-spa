@@ -69,8 +69,10 @@
                     <path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 0 0 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C7.63 5.36 6 7.92 6 11v5l-1.99 2H20l-2-2z"/>
                   </svg>
                     </button>
-                  <button id="logoutBtn" class="logout-btn" ...>
-                ...
+                <button id="logoutBtn" class="logout-btn" role="menuitem" tabindex="0" type="button" aria-label="Keluar dari akun">
+                    <svg class="logout-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M16 17v-3H9v-4h7V7l5 5-5 5zM14 2a2 2 0 0 1 2 2v2h-2V4H5v16h9v-2h2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9z"/>
+                </svg
               </button>
               </aside>
             `:""}
