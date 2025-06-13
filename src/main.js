@@ -5,32 +5,6 @@ import router from './router/router.js';
 const container = document.getElementById('app');
 const mainView = new MainView(container);
 
-// Service Worker Registration
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async () => {
-    try {
-      const registration = await navigator.serviceWorker.register('/story-app-spa/service-worker.js', {
-        scope: '/story-app-spa/'
-      });
-      
-      console.log('Service Worker registered successfully:', registration);
-      
-      // Check if service worker is ready
-      const sw = await navigator.serviceWorker.ready;
-      console.log('Service Worker ready:', sw);
-      
-    } catch (error) {
-      console.error('Service Worker registration failed:', error);
-    }
-  });
-  
-  // Listen for service worker updates
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    console.log('Service Worker controller changed');
-    window.location.reload();
-  });
-}
-
 function rerenderApp() {
   const token = localStorage.getItem('token');
   const isLoggedIn = !!token;

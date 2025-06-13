@@ -8,15 +8,12 @@ export default defineConfig({
       strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'service-worker.js',
-      registerType: 'autoUpdate',
-      injectManifest: {
-        swSrc: './src/service-worker.js',
-        swDest: 'service-worker.js',
-        globPatterns: [
-          '**/*.{js,css,html,ico,png,svg,webmanifest}'
-        ]
-      },
-      includeAssets: ['icon-192.png', 'icon-512.png', 'screenshot-desktop.png', 'screenshot-mobile.png'],
+      includeAssets: [
+        'icon-192.png',
+        'icon-512.png',
+        'screenshot-desktop.png',
+        'screenshot-mobile.png'
+      ],
       manifest: {
         name: 'Story App SPA',
         short_name: 'StoryApp',
