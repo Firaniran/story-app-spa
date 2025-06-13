@@ -5,6 +5,9 @@ export default defineConfig({
   base: '/story-app-spa/',
   plugins: [
     VitePWA({
+    devOptions: {
+      enabled: true
+      },
       strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'service-worker.js',
