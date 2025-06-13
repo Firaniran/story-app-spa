@@ -10,27 +10,10 @@ function rerenderApp() {
   const token = localStorage.getItem('token');
   const isLoggedIn = !!token;
 
-  // Render navbar sesuai status login
   mainView.renderNav(isLoggedIn);
   mainView.clearContent();
 
-  const contentContainer = mainView.getContentContainer();
-  contentContainer.innerHTML = '';
-  router(contentContainer);
-
-  const container = document.getElementById('notification-button-container');
-  if (container && isLoggedIn && !document.getElementById('pushButton')) {
-    const btn = document.createElement('button');
-    btn.id = 'pushButton';
-    btn.textContent = 'Aktifkan Notifikasi';
-    btn.classList.add('push-btn');
-    container.appendChild(btn);
-
-    btn.addEventListener('click', async () => {
-      const result = await setupPushNotification();
-      alert(result.message);
-    });
-  }
+  router(mainView.getContentContainer());
 }
 
 // Buat global agar bisa dipanggil dari mana saja

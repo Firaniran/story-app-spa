@@ -73,12 +73,15 @@ export default class MainView {
             </ul>
 
             ${isLoggedIn ? `
-            <aside class="user-actions" aria-label="Aksi pengguna">
+          <aside class="user-actions" aria-label="Aksi pengguna">
+            <button id="pushButton" class="push-btn" type="button" aria-label="Aktifkan Notifikasi">
+              Aktifkan Notifikasi
+            </button>
               <button id="logoutBtn" class="logout-btn" role="menuitem" tabindex="0" type="button" aria-label="Keluar dari akun">
-                <svg class="logout-icon" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M16 17v-3H9v-4h7V7l5 5-5 5zM14 2a2 2 0 0 1 2 2v2h-2V4H5v16h9v-2h2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9z"/>
-                </svg>
-                <span>Keluar</span>
+            <svg class="logout-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M16 17v-3H9v-4h7V7l5 5-5 5zM14 2a2 2 0 0 1 2 2v2h-2V4H5v16h9v-2h2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9z"/>
+            </svg>
+               <span>Keluar</span>
               </button>
             </aside>
             ` : ''}
@@ -90,20 +93,30 @@ export default class MainView {
     this.bindEvents();
   }
 
-  bindEvents() {
-    // Logout button
-    const logoutBtn = this.header.querySelector('#logoutBtn');
-    if (logoutBtn) {
-      logoutBtn.addEventListener('click', () => {
-        {
-          localStorage.removeItem('token');
-          localStorage.removeItem('userName');
-          window.location.hash = '#/login';
-          if (window.rerenderApp) window.rerenderApp();
-        }
-      });
-    }
+bindEvents() {
+  const pushBtn = this.header.querySelector('#pushButton');
+  if (pushBtn) {
+    pushBtn.addEventListener('click', async () => {
+      try {
+        const { setupPushNotification } = await import('../../utils/push-notification.js');
+        const result = await setupPushNotification();
+        alert(result.message);
+      } catch (error) {
+        console.error(error);
+        alert('Gagal mengaktifkan notifikasi');
+      }
+    });
+  }
 
+  const logoutBtn = this.header.querySelector('#logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('userName');
+      window.location.hash = '#/login';
+      if (window.rerenderApp) window.rerenderApp();
+    });
+  }
     // Skip link
     const skipLink = this.header.querySelector('.skip-link');
     const mainContent = document.getElementById('main-content');
