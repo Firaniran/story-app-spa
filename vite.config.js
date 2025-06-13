@@ -1,11 +1,14 @@
-import { defineConfig } from 'vite'
-import { VitePWA } from 'vite-plugin-pwa'
+import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   base: '/story-app-spa/',
   plugins: [
     VitePWA({
-      registerType: 'autoUpdate',
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: '/src/service-worker.js',
+
       includeAssets: ['icon-192.png', 'icon-512.png', 'screenshot-desktop.png', 'screenshot-mobile.png'],
       manifest: {
         name: 'Story App SPA',
@@ -47,18 +50,10 @@ export default defineConfig({
           }
         ]
       },
-      workbox: {
-        runtimeCaching: [
-          {
-            urlPattern: ({ request }) => request.destination === 'document',
-            handler: 'NetworkFirst'
-          },
-          {
-            urlPattern: ({ request }) => request.destination === 'image',
-            handler: 'CacheFirst'
-          }
-        ]
+
+      devOptions: {
+        enabled: true 
       }
     })
   ]
-})
+});

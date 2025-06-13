@@ -1,6 +1,7 @@
 import './styles/style.css';
 import MainView from './views/mainView.js';
 import router from './router/router.js';
+import { setupPushNotification } from './utils/push-notification.js';
 
 const container = document.getElementById('app');
 const mainView = new MainView(container);
@@ -22,6 +23,26 @@ window.rerenderApp = rerenderApp;
 
 document.addEventListener('DOMContentLoaded', () => {
   rerenderApp();
+
+  // Inisialisasi tombol push notification (jika ada)
+  const pushButton = document.getElementById('pushButton');
+  if (pushButton) {
+    pushButton.addEventListener('click', async () => {
+      const result = await setupPushNotification();
+      alert(result.message);
+    });
+  }
+
+  // Register custom service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then((registration) => {
+        console.log('Service Worker registered with scope:', registration.scope);
+      })
+      .catch((error) => {
+        console.error('Service Worker registration failed:', error);
+      });
+  }
 
   document.addEventListener('click', (e) => {
     if (e.target.matches('a[href^="#"]')) {

@@ -1,24 +1,25 @@
 {
   "name": "story-app-spa",
   "version": "1.0.0",
+  "description": "",
+  "main": "vite.config.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist"
   },
-  "dependencies": {
-    "leaflet": "^1.9.4",
-    "sweetalert2": "^11.21.2"
-  },
-  "devDependencies": {
-    "gh-pages": "^6.3.0",
-    "vite": "^5.0.0",
-    "vite-plugin-pwa": "^1.0.0"
-  },
-  "main": "vite.config.js",
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "keywords": [],
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "sweetalert2": "^11.21.2",
+    "workbox-build": "^7.3.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "vite-plugin-pwa": "^1.0.0",
+    "gh-pages": "^6.3.0"
+  }
 }
