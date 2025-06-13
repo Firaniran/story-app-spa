@@ -28,6 +28,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // ✅ Pasang event listener setelah DOM siap
   const pushButton = document.getElementById('pushButton');
+  console.log('pushButton:', pushButton);
+
   if (pushButton) {
     pushButton.addEventListener('click', async () => {
       const result = await setupPushNotification();
