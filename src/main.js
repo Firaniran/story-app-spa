@@ -18,6 +18,28 @@ function rerenderApp() {
   const contentContainer = mainView.getContentContainer();
   contentContainer.innerHTML = '';
   router(contentContainer);
+    if (isLoggedIn && !document.getElementById('pushButton')) {
+    const btn = document.createElement('button');
+    btn.id = 'pushButton';
+    btn.textContent = 'Aktifkan Notifikasi';
+    btn.style.position = 'fixed';
+    btn.style.bottom = '20px';
+    btn.style.right = '20px';
+    btn.style.zIndex = '9999';
+    btn.style.padding = '10px 16px';
+    btn.style.background = '#2196f3';
+    btn.style.color = '#fff';
+    btn.style.border = 'none';
+    btn.style.borderRadius = '4px';
+    btn.style.cursor = 'pointer';
+    
+    btn.addEventListener('click', async () => {
+      const result = await setupPushNotification();
+      alert(result.message);
+    });
+
+    document.body.appendChild(btn);
+    }
 }
 
 // Buat global agar bisa dipanggil dari mana saja

@@ -172,33 +172,28 @@ export const checkSubscriptionStatus = async () => {
   return false;
 };
 
-// Function untuk setup push notification dengan user interaction
 export const setupPushNotification = async () => {
   try {
-    console.log('Setting up push notification...');
-    // Cek apakah service worker sudah terdaftar
-    if ('serviceWorker' in navigator) {
-      const registration = await navigator.serviceWorker.ready;
-      console.log('Service Worker is ready:', registration);
-    }
+    console.log('⚙️ Memulai setup notifikasi');
     
     const granted = await requestNotificationPermission();
+    console.log('🔐 Permission granted?', granted);
+
     if (!granted) {
       throw new Error('Notification permission denied');
     }
-    
+
     const isSubscribed = await checkSubscriptionStatus();
-    
+    console.log('🔄 Sudah subscribe?', isSubscribed);
+
     if (!isSubscribed) {
       await subscribeUserToPush();
-      console.log('Successfully subscribed to push notifications');
       return { success: true, message: 'Berhasil berlangganan notifikasi push' };
     } else {
-      console.log('Already subscribed to push notifications');
       return { success: true, message: 'Sudah berlangganan notifikasi push' };
     }
   } catch (error) {
-    console.error('Failed to setup push notification:', error);
+    console.error('❌ Gagal setup notifikasi:', error);
     return { success: false, message: error.message };
   }
 };
