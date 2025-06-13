@@ -1,4 +1,3 @@
-// main.js
 import './styles/style.css';
 import MainView from './views/mainView.js';
 import router from './router/router.js';
@@ -18,56 +17,32 @@ function rerenderApp() {
   const contentContainer = mainView.getContentContainer();
   contentContainer.innerHTML = '';
   router(contentContainer);
-    if (isLoggedIn && !document.getElementById('pushButton')) {
+
+  // Tambah tombol notifikasi kalau sudah login dan tombol belum ada
+  if (isLoggedIn && !document.getElementById('pushButton')) {
     const btn = document.createElement('button');
     btn.id = 'pushButton';
     btn.textContent = 'Aktifkan Notifikasi';
-    btn.style.position = 'fixed';
-    btn.style.bottom = '20px';
-    btn.style.right = '20px';
-    btn.style.zIndex = '9999';
-    btn.style.padding = '10px 16px';
-    btn.style.background = '#2196f3';
-    btn.style.color = '#fff';
-    btn.style.border = 'none';
-    btn.style.borderRadius = '4px';
-    btn.style.cursor = 'pointer';
-    
+    document.body.appendChild(btn);
+
     btn.addEventListener('click', async () => {
       const result = await setupPushNotification();
       alert(result.message);
     });
-
-    document.body.appendChild(btn);
-    }
+  }
 }
 
 // Buat global agar bisa dipanggil dari mana saja
 window.rerenderApp = rerenderApp;
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   rerenderApp();
-
-  // ✅ Pasang event listener setelah DOM siap
-  const pushButton = document.getElementById('pushButton');
-  console.log('pushButton:', pushButton);
-
-  if (pushButton) {
-    pushButton.addEventListener('click', async () => {
-      const result = await setupPushNotification();
-      alert(result.message);
-    });
-  }
 
   if ('serviceWorker' in navigator) {
-    try {
-      await navigator.serviceWorker.register('/story-app-spa/service-worker.js');
-      console.log('Service Worker registered');
-    } catch (error) {
-      console.error('Service Worker registration failed:', error);
-    }
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(() => console.log('Service Worker registered'))
+      .catch(console.error);
   }
-  rerenderApp();
 
   // Navigasi SPA dengan anchor
   document.addEventListener('click', (e) => {
