@@ -23,7 +23,7 @@ function rerenderApp() {
 // Buat global agar bisa dipanggil dari mana saja
 window.rerenderApp = rerenderApp;
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   rerenderApp();
 
   // ✅ Pasang event listener setelah DOM siap
@@ -34,6 +34,16 @@ document.addEventListener('DOMContentLoaded', () => {
       alert(result.message);
     });
   }
+
+  if ('serviceWorker' in navigator) {
+    try {
+      await navigator.serviceWorker.register('/service-worker.js');
+      console.log('Service Worker registered');
+    } catch (error) {
+      console.error('Service Worker registration failed:', error);
+    }
+  }
+  rerenderApp();
 
   // Navigasi SPA dengan anchor
   document.addEventListener('click', (e) => {
