@@ -5,13 +5,19 @@ export default defineConfig({
   base: '/story-app-spa/',
   plugins: [
     VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'service-worker.js',
       registerType: 'autoUpdate',
-      includeAssets: [
-        'icon-192.png',
-        'icon-512.png',
-        'screenshot-desktop.png',
-        'screenshot-mobile.png'
-      ],
+      injectManifest: {
+        swSrc: 'src/service-worker.js',
+        swDest: 'service-worker.js',
+        globDirectory: 'dist',
+        globPatterns: [
+          '**/*.{js,css,html,ico,png,svg,webmanifest}'
+        ]
+      },
+      includeAssets: ['icon-192.png', 'icon-512.png', 'screenshot-desktop.png', 'screenshot-mobile.png'],
       manifest: {
         name: 'Story App SPA',
         short_name: 'StoryApp',
@@ -49,21 +55,6 @@ export default defineConfig({
             src: 'screenshot-mobile.png',
             type: 'image/png',
             sizes: '360x640'
-          }
-        ]
-      },
-      srcDir: 'src',
-      filename: 'service-worker.js',
-      strategies: 'injectManifest',
-      workbox: {
-        runtimeCaching: [
-          {
-            urlPattern: ({ request }) => request.destination === 'document',
-            handler: 'NetworkFirst'
-          },
-          {
-            urlPattern: ({ request }) => request.destination === 'image',
-            handler: 'CacheFirst'
           }
         ]
       }

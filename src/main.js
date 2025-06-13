@@ -1,10 +1,35 @@
 import './styles/style.css';
 import MainView from './views/mainView.js';
 import router from './router/router.js';
-import { setupPushNotification } from './utils/push-notification.js';
 
 const container = document.getElementById('app');
 const mainView = new MainView(container);
+
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('/story-app-spa/service-worker.js', {
+        scope: '/story-app-spa/'
+      });
+      
+      console.log('Service Worker registered successfully:', registration);
+      
+      // Check if service worker is ready
+      const sw = await navigator.serviceWorker.ready;
+      console.log('Service Worker ready:', sw);
+      
+    } catch (error) {
+      console.error('Service Worker registration failed:', error);
+    }
+  });
+  
+  // Listen for service worker updates
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    console.log('Service Worker controller changed');
+    window.location.reload();
+  });
+}
 
 function rerenderApp() {
   const token = localStorage.getItem('token');
@@ -23,26 +48,6 @@ window.rerenderApp = rerenderApp;
 
 document.addEventListener('DOMContentLoaded', () => {
   rerenderApp();
-
-  // Inisialisasi tombol push notification (jika ada)
-  const pushButton = document.getElementById('pushButton');
-  if (pushButton) {
-    pushButton.addEventListener('click', async () => {
-      const result = await setupPushNotification();
-      alert(result.message);
-    });
-  }
-
-  // Register custom service worker
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then((registration) => {
-        console.log('Service Worker registered with scope:', registration.scope);
-      })
-      .catch((error) => {
-        console.error('Service Worker registration failed:', error);
-      });
-  }
 
   document.addEventListener('click', (e) => {
     if (e.target.matches('a[href^="#"]')) {
