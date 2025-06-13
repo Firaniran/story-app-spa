@@ -10,9 +10,8 @@ export default defineConfig({
       filename: 'service-worker.js',
       registerType: 'autoUpdate',
       injectManifest: {
-        swSrc: 'src/service-worker.js',
+        swSrc: './src/service-worker.js',
         swDest: 'service-worker.js',
-        globDirectory: 'dist',
         globPatterns: [
           '**/*.{js,css,html,ico,png,svg,webmanifest}'
         ]
